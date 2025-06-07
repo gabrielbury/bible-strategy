@@ -1,0 +1,30 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model books {
+  id        Int     @id @default(autoincrement())
+  name      String? @db.VarChar(45)
+  abbrev    String? @db.VarChar(5)
+  testament String? @db.VarChar(5)
+}
+
+model testament {
+  id   Int     @id @default(autoincrement())
+  name String? @db.VarChar(45)
+}
+
+model verses {
+  id        Int     @id @default(autoincrement())
+  version   String? @db.VarChar(10)
+  testament Int?
+  book      Int?
+  chapter   Int?
+  verse     Int?
+  text      String? @db.VarChar(1000)
+}
