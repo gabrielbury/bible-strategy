@@ -1,10 +1,8 @@
-import { BibleVersion } from "src/bible/models/enums/bible-version.enum";
-import { Strategy } from "../strategy.interface";
 import * as path from 'path';
 import * as fs from 'fs';
 import { book } from "src/bible/models/book.model";
 
-export class AraStrategy implements Strategy {
+export class AraService {
 
   private readonly bible: book[];
 
@@ -14,11 +12,8 @@ export class AraStrategy implements Strategy {
     this.bible = JSON.parse(rawData);
   }
 
-  getStrategyName(): BibleVersion {
-    return BibleVersion.ARA;
-  }
   async getBibleVerse(book: string, chapter: number, verse: number): Promise<string> {
-    return this.getBook(book).chapters[chapter - 1][verse - 1] || `Versículo não encontrad na versão ${this.getStrategyName()}`;
+    return this.getBook(book).chapters[chapter - 1][verse - 1] || `Versículo não encontrad na versão ARA`;
   }
 
   private getBook(book: string) {

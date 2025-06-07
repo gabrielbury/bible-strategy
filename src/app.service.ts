@@ -1,37 +1,28 @@
-import { Inject, Injectable } from '@nestjs/common';
-import { AraStrategy } from './bible/strategy/ara-strategy/ara-strategy';
+import { Injectable } from '@nestjs/common';
+import { AraService } from './bible/services/ara/ara-service';
 import { BibleVersion } from './bible/models/enums/bible-version.enum';
-import { NviStrategy } from './bible/strategy/nvi-strategy/nvi-strategy';
-import { KjfStrategy } from './bible/strategy/kjf-strategy/kjf-strategy';
-import { Strategy } from './bible/strategy/strategy.interface';
+import { NviService } from './bible/services/nvi/nvi-service';
+import { KjfService } from './bible/services/kjf/kjf-service';
 
 @Injectable()
 export class AppService {
   constructor(
-    private readonly araStrategy: AraStrategy,
-    private readonly nviStrategy: NviStrategy,
-    private readonly kjfStrategy: KjfStrategy,
-    @Inject('BIBLE_VERSION_STRATEGY_MAP')
-    private readonly strategyMap: Record<string, Strategy>) {
+    private readonly araService: AraService,
+    private readonly nviService: NviService,
+    private readonly kjfService: KjfService) {
 
   }
 
   async getBibleVerse(version: BibleVersion, book: string, chapter: number, verse: number): Promise<string> {
-    try {
-      return this.strategyMap[version].getBibleVerse(book, chapter, verse);
-    } catch (e) {
-      return (e as Error).message
-    }
 
-    /*
     if (version == BibleVersion.ARA) {
-      return await this.araStrategy.getBibleVerse(book, chapter, verse);
+      return await this.araService.getBibleVerse(book, chapter, verse);
     } else if (version == BibleVersion.NVI) {
-      return await this.nviStrategy.getBibleVerse(book, chapter, verse);
+      return await this.nviService.getBibleVerse(book, chapter, verse);
     } else if (version == BibleVersion.KJF) {
-      return await this.kjfStrategy.getBibleVerse(book, chapter, verse);
+      return await this.kjfService.getBibleVerse(book, chapter, verse);
     } else {
       return "Versão não encontrada";
-    }*/
+    }
   }
 }

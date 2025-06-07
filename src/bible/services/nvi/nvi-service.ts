@@ -1,9 +1,7 @@
 import { BibleVersion } from "src/bible/models/enums/bible-version.enum";
-import { Strategy } from "../strategy.interface";
 import { PrismaClient } from "@prisma/client"
-import { equal } from "assert";
 
-export class NviStrategy implements Strategy {
+export class NviService {
 
   private readonly client: PrismaClient;
 
@@ -11,9 +9,6 @@ export class NviStrategy implements Strategy {
     this.client = new PrismaClient();
   }
 
-  getStrategyName(): BibleVersion {
-    return BibleVersion.NVI;
-  }
   async getBibleVerse(book: string, chapter: number, verse: number): Promise<string> {
     const bookData = await this.client.books.findFirst({
       select: {
